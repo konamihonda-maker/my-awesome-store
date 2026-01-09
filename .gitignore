@@ -1,0 +1,13 @@
+# Ignore backend modules
+node_modules/
+
+# Ignore frontend modules
+ecommerce-frontend/node_modules/
+
+# Ignore build output
+dist/
+ecommerce-frontend/dist/
+
+# Ignore system files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,335 @@
+/* src/App.css - Refined Professional Full-Width */
+
+:root {
+  --primary: #2563eb;
+  --bg-white: #ffffff;
+  --nav-dark: #1e293b;
+  --text: #0f172a;
+  --gray-light: #f1f5f9;
+}
+
+/* 1. Global Reset - Kill default Vite styling */
+html, body, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  background-color: var(--bg-white) !important;
+  display: block !important;
+}
+
+.App {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 2. Navigation - Full Width but clean padding */
+nav {
+  background: var(--nav-dark);
+  color: white;
+  padding: 1rem 4%; /* Uses percentage for fluid width */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 3. Main Content Container */
+.content-container {
+  display: flex;
+  width: 100%;
+  padding: 30px 4%; /* Percentage-based side padding keeps it pro */
+  gap: 40px;
+  box-sizing: border-box;
+  align-items: flex-start;
+}
+
+/* 4. Sidebar - FIXED WIDTH (Prevents it from looking 'big') */
+.dashboard-section {
+  flex: 0 0 320px;   /* 💡 Fixes the size so it never looks 'too big' */
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border: 1px solid #e2e8f0;
+  position: sticky;
+  top: 20px;
+}
+
+.product-form input, .product-form textarea {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+/* 5. Product Area - FLUID GRID */
+.product-list-section {
+  flex: 1;
+}
+
+/* src/App.css */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 20px;
+}
+
+.product-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensures all cards are same height */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px; /* Locked height to save space for text */
+  object-fit: contain; /* Shows full image without cropping */
+  border-radius: 8px;
+  background-color: #f8fafc;
+  margin-bottom: 15px;
+}
+
+/* 💡 This is the container for the text info */
+.product-info {
+  flex-grow: 1; /* Pushes buttons to the bottom */
+  text-align: left;
+  padding: 0 5px;
+}
+
+.product-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+  color: #1e293b;
+}
+
+.product-info p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.product-price {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #2563eb;
+  margin: 10px 0 !important;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.card-actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* Banner for Shop Page - Spans 100% */
+.full-banner {
+  width: 100%;
+  padding: 60px 4%;
+  background-color: var(--nav-dark);
+  color: white;
+  text-align: left; /* Modern left-aligned look */
+  box-sizing: border-box;
+}
+
+/* Tablet/Mobile logic */
+@media (max-width: 1100px) {
+  .content-container { flex-direction: column; }
+  .dashboard-section { width: 100%; flex: none; position: static; }
+}
+
+.description-text {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 8px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limits description to 2 lines */
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.add-to-cart-btn {
+  background-color: #2563eb;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.edit-btn {
+  background-color: #fbbf24;
+  color: black;
+  flex: 1;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* --- Cart Sidebar Styles --- */
+
+/* The dark background overlay */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+  display: none; /* Hidden by default */
+}
+.overlay.open { display: block; }
+
+/* The Sliding Drawer */
+.cart-sidebar {
+  position: fixed;
+  top: 0; right: -400px; /* Hide off-screen */
+  width: 350px;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  transition: right 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+.cart-sidebar.open { right: 0; /* Slide in */ }
+
+/* Sidebar Header */
+.cart-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+}
+.close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #333; }
+
+/* Items List */
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+.cart-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px; }
+.item-details { flex: 1; text-align: left; }
+.item-details h4 { margin: 0; font-size: 0.95rem; }
+.remove-btn { background: none; border: none; cursor: pointer; font-size: 1.2rem; }
+
+/* Footer */
+.cart-footer { padding: 20px; border-top: 1px solid #eee; background: #f8fafc; }
+.total-row { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; }
+.checkout-btn { width: 100%; background: #10b981; color: white; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.checkout-btn:hover { background: #059669; }
+
+/* Mobile Sidebar */
+@media (max-width: 500px) { .cart-sidebar { width: 100%; } }
+
+/* --- Cart Sidebar Styles --- */
+
+/* Dark Overlay */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 900;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.overlay.open { display: block; opacity: 1; }
+
+/* The Sidebar Drawer */
+.cart-sidebar {
+  position: fixed;
+  top: 0; right: -400px; /* Hidden off-screen initially */
+  width: 380px;
+  height: 100%;
+  background: white;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  z-index: 1000;
+  transition: right 0.3s ease-in-out; /* Smooth sliding effect */
+  display: flex;
+  flex-direction: column;
+}
+.cart-sidebar.open { right: 0; /* Slides in to show */ }
+
+/* Header */
+.cart-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+}
+.close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+/* Item List */
+.cart-items {
+  flex: 1; /* Takes up all available middle space */
+  overflow-y: auto; /* Scrollable if list is long */
+  padding: 20px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 10px;
+}
+
+.cart-item img {
+  width: 60px; height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 15px;
+  border: 1px solid #e2e8f0;
+}
+
+.item-details h4 { margin: 0 0 5px 0; font-size: 1rem; color: #333; }
+.item-details p { margin: 0; color: #64748b; font-size: 0.9rem; }
+.remove-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.7; }
+.remove-btn:hover { opacity: 1; }
+
+/* Footer */
+.cart-footer { padding: 25px; background: #f8fafc; border-top: 1px solid #eee; }
+.total-row { display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: 800; margin-bottom: 20px; color: #1e293b; }
+.checkout-btn { width: 100%; background: #10b981; color: white; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: background 0.2s; }
+.checkout-btn:hover { background: #059669; }
+
+/* Mobile Response */
+@media (max-width: 500px) { .cart-sidebar { width: 100%; } }
