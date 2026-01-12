@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import ProductForm from './ProductForm';
 import OrderHistory from './OrderHistory';
+import API_BASE_URL from './config'; // ✅ Imported correctly
 
 export default function AdminDashboard() {
   const [products, setProducts] = useState([]);
@@ -10,7 +11,8 @@ export default function AdminDashboard() {
 
   // 1. Fetch Products on load
   const fetchProducts = () => {
-    fetch('http://localhost:3000/api/products')
+    // 💡 FIXED: Use API_BASE_URL instead of localhost
+    fetch(`${API_BASE_URL}/api/products`)
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error("Error loading products:", err));
@@ -33,7 +35,8 @@ export default function AdminDashboard() {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     
     try {
-      await fetch(`http://localhost:3000/api/products/${id}`, { method: 'DELETE' });
+      // 💡 FIXED: Use API_BASE_URL here too
+      await fetch(`${API_BASE_URL}/api/products/${id}`, { method: 'DELETE' });
       fetchProducts(); // Refresh list
     } catch (error) {
       console.error("Error deleting:", error);
@@ -94,7 +97,7 @@ export default function AdminDashboard() {
                   <p className="text-gray-500 text-sm mb-2 truncate">{product.description}</p>
                   <div className="mt-auto flex justify-between items-center">
                     <div>
-                      <span className="block font-bold text-blue-600">${product.price}</span>
+                      <span className="block font-bold text-blue-600">${parseFloat(product.price).toFixed(2)}</span>
                       <span className={`text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
                         Stock: {product.stock}
                       </span>

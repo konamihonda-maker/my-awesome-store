@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useCart } from './CartContext';
 import Hero from './Hero'; // 💡 Import Hero
 import Footer from './Footer'; // 💡 Import Footer
+import API_BASE_URL from './config'; // 1. Import it
 
 export default function ShopPage() {
   const [products, setProducts] = useState([]);
@@ -9,7 +10,8 @@ export default function ShopPage() {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/products')
+    //fetch('http://localhost:3000/api/products') <-- Use this in the Local host 
+    fetch(`${API_BASE_URL}/api/products`) // <-- ADD THIS
       .then(res => res.json())
       .then(data => {
         setProducts(data);

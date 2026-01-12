@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import API_BASE_URL from './config';
 
 export default function OrderHistory() {
   const [orders, setOrders] = useState([]);
@@ -7,7 +8,8 @@ export default function OrderHistory() {
 
   useEffect(() => {
     // 💡 FIXED: Changed method to 'GET' to match your server.js
-    fetch('http://localhost:3000/api/orders/history')
+    //fetch('http://localhost:3000/api/orders/history') <-- Use this in the Localhost
+    fetch(`${API_BASE_URL}/api/orders/history`)
       .then(res => {
         if (!res.ok) {
           throw new Error('Failed to fetch orders');
