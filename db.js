@@ -1,17 +1,29 @@
-// db.js - Database Connection Logic
 const mysql = require('mysql2/promise');
+require('dotenv').config();
 
-// 💡 Laragon Default Settings: user: root, password: '' (empty)
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'shop_db',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || 'test',
+    port: process.env.DB_PORT || 4000,
+    ssl: {
+        // 💡 FIXED: Allow connection even if the certificate isn't perfect
+        rejectUnauthorized: false 
+    },
     waitForConnections: true,
-    connectionLimit: 10, // Max simultaneous connections
+    connectionLimit: 10,
     queueLimit: 0
 });
 
-console.log("Database connection pool created.");
+// Test the connection immediately when the app starts
+pool.getConnection()
+    .then(conn => {
+        console.log("✅ Database Connected Successfully!");
+        conn.release();
+    })
+    .catch(err => {
+        console.error("❌ Database Connection Failed:", err.message);
+    });
 
 module.exports = pool;
